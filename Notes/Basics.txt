@@ -1,0 +1,8 @@
+1- Versioning Tool like Git
+2- CICD Pipeline like Github Actions
+3- Containerization tool like Docker
+4- Container Orchestration tool like Kubernetes
+5- Cloud Infrastructure orchestration tool like Terraform
+6- Tool for Setting up pre-requisites on Cloud Servers like Ansible
+7- Tool to monitor Stats of Server Computers like Prometheus
+8- Tool to make the stats data look better like Griffana 
