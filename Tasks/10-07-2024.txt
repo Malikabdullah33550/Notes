@@ -1,0 +1,8 @@
+What is Microsoft IIS Server
+--Install IIS Server
+--Create a website and deploy it on IIS Server
+What is Microsoft Technology Stack? 
+
+--Install Apache on Linux
+--How to configure Website on Apache
+--Virtual Host Configuration(Host multiple websites on the same server using Ports and Domain Names)
