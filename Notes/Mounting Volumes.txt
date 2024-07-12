@@ -1,0 +1,46 @@
+use the command to check list all info about mounting devices
+mount
+
+to list specific type of devices, use the following command
+mount -t ext4       -> lists all ext-4 partitions
+
+mount [option] [device_name] [dir]
+mount -t [type of mounting device] [device] [dir]
+
+to list all blank/storage devices, use the following command
+lsblk
+
+** To Mount a USB Device to your Linux system, use the following commands
+
+1-create a mount point
+sudo mkdir -p /media/USB
+
+2- Assume USB uses /dev/sdd1 device, (you can check it using lsblk command) mount it using
+sudo mount /dev/sdd1 /media/USB
+
+Congrats, your USB has been mounted
+
+** To Mount a Hdd to your Linux system, use the following procedure
+
+1- List all of the blank devices and recognize your device using the size and label and note this down
+lsblk
+
+2-  If Hdd has unallocated space, use the following process; if not, skip these steps
+2.1- select the Hdd
+sudo fdisk /dev/sdx  (Assume that sdx is your HDD)
+2.2- format the disk
+sudo mkfs.ext4 /dev/sdxy (Assume sdxy is your desired partition and volume level)
+
+3- create a directory for your HDD where you will store all of your data for the HDD (creating a mount point)
+sudo mkdir /mnt/myHdd
+
+4- mount the Hdd using:
+sudo mount /dev/sdXY /mnt/myHdd
+
+5- For Auto Mounting of a device, on boot, do the following config:
+5.1- Open /etc/fstab using nano editor and add the following line at the end of the file:
+/dev/sdXY /mnt/myHdd ext4 defaults 0 2
+
+
+Finally, to unMount your Hdd, use this:
+sudo unmount /mnt/myHdd
