@@ -1,0 +1,26 @@
+.tar file system is used to preserce directory structure and does no compress the file system 
+There are 4 types of compressions and archives
+.tar only archives the data and does not compress it
+
+To archive data using tar utility, use the following command
+tar -cf [archivename].tar [directory to be archived]
+
+To view data in the tar directory, use the following command
+tar -tf [archivename].tar
+
+to extract data from a .tar file, use the following command
+tar -xf [filename].tar -C [destination directory]
+
+
+.tar.gz file system
+this file system is used to archive data and compress data at the same time
+.tar is used to archive and the .gz utility is used to compress the files
+
+to create a .tar.gz file, use the following command
+tar -czvf [filename].tar.gz [directory to be put in the filename]
+
+to view the contents of a .tar.gz file, you need to use the follwoing command
+tar -tf [fileame].tar.gz
+
+to extract the data from a .tar.gz file, use the following command
+tar -xf [filename].tar.gz -C [target directory]

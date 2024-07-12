@@ -1,0 +1,29 @@
+types of compressions:
+
+.gzip --- favours speed, low compression
+.bzip --- mid speed, mid compression
+.xz   --- low speed, favours compression
+
+other archive formats include
+
+.tar    --- archives but does not compress
+.gz     --- compresses but does not archive
+.tar.gz --- archives as well as compresses --- also called TGZ files
+
+
+without using the k flag, the original file is automatically removed after the zip file has been created
+gzip -kv [filename]
+
+
+to view contents of a gzip file without compressing
+zcat [compressedfile].gz
+
+to compress a file, use the following command
+
+
+to uncompress a file, use the following command
+gunzip [file].gz
+gzip -d [file].gz
+
+
+without using the k flag, the .gz file is automatically removed after unzipping
