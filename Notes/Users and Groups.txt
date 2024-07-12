@@ -1,0 +1,64 @@
+**GROUPS**
+
+To add new GROUPS
+sudo groupadd [groupname]
+verify this by visiting the /etc/group file (cat /etc/group)
+
+
+To create a group with a specific ID
+sudo groupadd -g 1009 [groupname]
+
+To change group ID 
+sudo groupmod -g 1011 [groupname]
+
+To change the Group name
+sudo groupmod -n [new name of the group] [old name of the group]
+
+To add user to a group
+sudo usermod --append --groups [group name] [username]
+OR
+sudo usermod -aG [group name] [user name]
+
+To check the groups and ID of a user
+id [username]
+
+To Remove user from the group:
+sudo gpasswd --delete [username] [group name]
+
+To delete a group,
+sudo groupdel [group name]
+
+
+**USERS**
+
+To create a new user
+sudo useradd -m [new user's name]      
+-m helps create the home directory for the newly created user
+verify it from the /etc/passwd file (cat /etc/passwd)
+
+To view all USERS
+cat /etc/passwd
+
+To set password for a user
+sudo passwd [username] 
+
+To know current user
+whoami
+
+To see groups of a user:
+groups [username]
+
+To ()lock revent a user from loggin in, use:
+sudo passwd -l [username]
+
+To unlock the user and allow him to log in, use
+sudo passwd -u [username]
+
+To delete a user, use;
+sudo userdel [username]
+
+To remove Home directory as well as the user, type
+sudo userdel -r [username]
+
+To force remove home directory and delete the user, use:
+sudo userdel -rf [username]
