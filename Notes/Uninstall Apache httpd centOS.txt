@@ -1,0 +1,12 @@
+rpm -qa "httpd"
+yum list installed "httpd*"
+yum remove "httpd*" -y
+rm -rf /var/www
+rm -rf /etc/httpd
+rm -rf /usr/lib64/httpd
+userdel -r apache
+grep "apache" /etc/passwd
+systemctl status httpd
+
+
+

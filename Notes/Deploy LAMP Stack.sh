@@ -20,7 +20,7 @@ sudo systemctl enable mariadb
 
 # Add FirewallD rules for database
 print_green "Adding Firewall rules for DB..."
-sudo firewalld-cmd --permanent --zone=public --add-port=3306/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=3306/tcp
 sudo firewall-cmd --reload
 
 # Configuring Database

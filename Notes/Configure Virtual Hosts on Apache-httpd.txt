@@ -1,0 +1,50 @@
+1. Install httpd/apache2
+
+yum install httpd
+
+2. make directory for each website
+
+mkdir /var/www/site1 /var/www/site2 /var/www/site3
+
+3. change ownership for the files for the user
+
+sudo chown -R [user]:[user] /var/www/[sitename]
+
+4. change permissions for the files
+
+sudo chmod -R 755 /var/www/
+
+5. put data in each website Directory and make one main file name index.html
+
+sudo nano /var/www/[sitename]/index.html
+
+6. configure each site's config file and add the configuration in the following way:
+
+sudo nano /etc/httpd/conf.d/[sitename].conf
+
+Add the following data into it;
+
+<VirtualHost *:80>
+    ServerAdmin [admin's email]
+    DocumentRoot /var/www/[sitename]
+    ServerName site2.local [sitename.local]
+    ErrorLog ${APACHE_LOG_DIR}/[sitename]-error.log   
+    #[${APCHE_LOG_DIR} = anywhere you want to store the logs for the website]
+    CustomLog ${APACHE_LOG_DIR}/site2-access.log combined
+</VirtualHost>
+
+7. Restart https service
+
+sudo systemctl restart httpd
+
+8. edit the host file and add the following text
+
+sudo nano /etc/hosts
+
+127.0.0.1  [sitename]domain
+127.0.0.1  [sitename]domain
+127.0.0.1  [sitename]domain
+
+9. Enter domain name into the browser and check if working. 
+
+That's it! Enjoy
