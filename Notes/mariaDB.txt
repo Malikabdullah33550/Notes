@@ -48,4 +48,4 @@ instead of the above command,
 
 
 #manage permissions for users in SQL
-#video paused at 21:22
+#video paused at 26:12
