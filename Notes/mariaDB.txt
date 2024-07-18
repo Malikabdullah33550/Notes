@@ -5,6 +5,7 @@ follow along the guided Installation
 To enter mySQL as root:
 sudo mysql
 commands:
+----------------entered SQL-------------------
 show databases;
 create database [database-name];
 show databases;
@@ -25,6 +26,25 @@ SELECT [column-name] FROM [table-name];
 SELECT * FROM [table-name] WHERE id=2;
 UPDATE [table-name] SET [column-name]=101, name='George1'
     -> WHERE id=3;
+
+
+-------------managing Permissions in SQL----------------
+SELECT * FROM mysql.user;
+show databases;
+use mysql;   (default mysql database in mariadb)
+show tables;
+#there is a table named user in mysql, which contains all the users in a list
+SELECT * FROM mysql.user;
+#not readable information
+SELECT * FROM mysql.user \G
+SELECT Host, User, Password FROM mysql.user;
+CREATE USER '[username]'@'[localhost]'
+    -> IDENTIFIED BY '[password]';
+exit;
+----------------Entering MYSQL as a new user--------------
+mysql -u [username] -p'[password]'
+instead of the above command, 
+
 
 
 #manage permissions for users in SQL
