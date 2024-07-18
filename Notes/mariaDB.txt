@@ -1,7 +1,7 @@
 sudo apt install mariadb
 systemctl status mariadb
 mysql_secure_installation
-follow along
+follow along the guided Installation
 To enter mySQL as root:
 sudo mysql
 commands:
