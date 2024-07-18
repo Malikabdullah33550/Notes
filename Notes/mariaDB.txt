@@ -1,0 +1,31 @@
+sudo apt install mariadb
+systemctl status mariadb
+mysql_secure_installation
+follow along
+To enter mySQL as root:
+sudo mysql
+commands:
+show databases;
+create database [database-name];
+show databases;
+drop databse [database-name];   (to delete a database)
+use [databse-name];
+CREATE TABLE [table-name] (
+    -> id INT(10),
+    -> name VARCHAR(50),
+    -> score INT(10)
+    -> );
+SHOW TABLES;
+DESC [table-name];      (to describe the table's structure)
+INSERT INTO [table-name] (
+    -> id, name, score )
+    -> VALUES ( 1, 'John', 99);
+SELECT * FORM [table-name];
+SELECT [column-name] FROM [table-name];
+SELECT * FROM [table-name] WHERE id=2;
+UPDATE [table-name] SET [column-name]=101, name='George1'
+    -> WHERE id=3;
+
+
+#manage permissions for users in SQL
+#video paused at 21:22
