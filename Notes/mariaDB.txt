@@ -43,9 +43,60 @@ CREATE USER '[username]'@'[localhost]'
 exit;
 ----------------Entering MYSQL as a new user--------------
 mysql -u [username] -p'[password]'
-instead of the above command, 
+instead of the above command, run the following command to preseve you password
+
+mysql -u [username] -p
+Enter Password:
+-----------------Connecting to remote mySQL database-------------
+
+mysql -h [host IP] -u [username] -p
+Enter Password:
+
+By Default, mySQL only allows connections from localhost, 
+
+nc -zv [host IP] [port = 3306]
+
+To allow remote logins, you need to change the allowed IP addresses as shown below
+TO get the binding configuration file; run this command:
+sudo grep -r 'bind' /etc/mysql/
+
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf
+
+change the bind address in this file from 127.0.0.1 to 0.0.0.0
+
+sudo systemctl restart mysql
+
+now connect using netstat
+
+nc -zv [host IP] [port=3306]
+mysql -h [host IP] -u [username] -p
+Enter Password:
+
+Access Denied!
+(PERMISSION DENIED)
+
+to allow access, go to mysql, 
+
+sudo mysql
+
+UPDATE mysql.user SET Host='[Accessing IP]/[allows all access or %]';
+FLUSH PRIVILEGES;
+
+mysql -h [host IP] -u [username] -p
+Enter Password:
+WELCOME TO MYSQL!
+
+
+DROP USER '[username]'@'[IP of user]';
+CREATE USER '[username]'@'[%]' IDENTIFIED BY '123';
+show databases;
+GRANT SELECT/ALL ON devops.* TO '[username]'@'%';
+FLUSH PRIVILEGES;
+
+now the above created user has access to all the tables in the devops database;
 
 
 
-#manage permissions for users in SQL
-#video paused at 26:12
+
+# https://www.youtube.com/watch?v=EfJEG0dHQpE&t=1572s
+#16 DevOps From Scratch | MySQL Intro for DevOps Engineers
