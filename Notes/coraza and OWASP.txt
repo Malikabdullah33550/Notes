@@ -1,0 +1,167 @@
+Installing Coraza (a Web Application Firewall written in Go) to work with OWASP ModSecurity on a CentOS Stream 9 machine involves several steps. This detailed guide will walk you through each step explicitly:
+
+### Step 1: Update the System
+
+1. **Open a Terminal**:
+   - Make sure you have root or sudo privileges.
+
+2. **Update the Package Repository**:
+   - Run the following command to update the package repository:
+
+   ```sh
+   sudo dnf update -y
+   ```
+
+### Step 2: Install Dependencies
+
+1. **Install EPEL Repository**:
+   - The Extra Packages for Enterprise Linux (EPEL) repository provides additional packages for CentOS. Install it using:
+
+   ```sh
+   sudo dnf install epel-release -y
+   ```
+
+2. **Install Development Tools and Libraries**:
+   - Install the necessary development tools and libraries required to build software from source:
+
+   ```sh
+   sudo dnf groupinstall "Development Tools" -y
+   sudo dnf install pcre-devel libxml2-devel git wget -y
+   ```
+
+### Step 3: Install Go (Golang)
+
+1. **Download Go**:
+   - Download the latest stable version of Go from the official website. You can check the latest version at [Go Downloads](https://golang.org/dl/).
+
+   ```sh
+   wget https://go.dev/dl/go1.20.6.linux-amd64.tar.gz
+   ```
+
+   Adjust the version number (`1.20.6` in this example) to the latest version if necessary.
+
+2. **Extract Go Archive**:
+   - Extract the downloaded archive to `/usr/local`:
+
+   ```sh
+   sudo tar -C /usr/local -xzf go1.20.6.linux-amd64.tar.gz
+   ```
+
+3. **Set Up Go Environment**:
+   - Add Go to your PATH by adding the following lines to your `.bashrc` or `.bash_profile`:
+
+   ```sh
+   echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+4. **Verify Go Installation**:
+   - Check if Go is installed correctly:
+
+   ```sh
+   go version
+   ```
+
+### Step 4: Install Coraza
+
+1. **Set Up Go Workspace**:
+   - Create a directory for your Go workspace and set up the Go environment variables:
+
+   ```sh
+   mkdir -p ~/go/src/github.com/corazawaf
+   echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+   echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+2. **Clone the Coraza Repository**:
+   - Clone the Coraza GitHub repository:
+
+   ```sh
+   cd ~/go/src/github.com/corazawaf
+   git clone https://github.com/corazawaf/coraza.git
+   ```
+
+3. **Build Coraza**:
+   - Navigate to the Coraza directory and build it:
+
+   ```sh
+   cd coraza
+   go build ./...
+   ```
+
+### Step 5: Install OWASP ModSecurity
+
+1. **Install ModSecurity**:
+   - Install ModSecurity using the EPEL repository:
+
+   ```sh
+   sudo dnf install mod_security -y
+   ```
+
+2. **Verify ModSecurity Installation**:
+   - Check if ModSecurity is installed correctly:
+
+   ```sh
+   sudo httpd -M | grep security
+   ```
+
+### Step 6: Configure Coraza with ModSecurity
+
+1. **Configure ModSecurity**:
+   - Open the ModSecurity configuration file:
+
+   ```sh
+   sudo vi /etc/httpd/conf.d/mod_security.conf
+   ```
+
+2. **Update Configuration**:
+   - Add the following configuration to integrate Coraza with ModSecurity:
+
+   ```sh
+   <IfModule security2_module>
+       SecRuleEngine On
+       SecRequestBodyAccess On
+       SecResponseBodyAccess On
+       SecDebugLog /var/log/httpd/modsec_debug.log
+       SecDebugLogLevel 3
+       SecAuditEngine On
+       SecAuditLogRelevantStatus "^(?:5|4(?!04))"
+       SecAuditLogParts ABIJDEFHZ
+       SecAuditLogType Serial
+       SecAuditLog /var/log/httpd/modsec_audit.log
+       IncludeOptional /etc/httpd/modsecurity.d/*.conf
+   </IfModule>
+   ```
+
+3. **Include Coraza Rules**:
+   - Ensure Coraza rules are included in ModSecurity by adding them to the configuration directory:
+
+   ```sh
+   sudo cp ~/go/src/github.com/corazawaf/coraza/coraza.conf /etc/httpd/modsecurity.d/
+   ```
+
+### Step 7: Restart Apache
+
+1. **Restart Apache to Apply Changes**:
+   - Restart the Apache server to apply the new configuration:
+
+   ```sh
+   sudo systemctl restart httpd
+   ```
+
+### Step 8: Verify Installation
+
+1. **Check Logs**:
+   - Verify that Coraza and ModSecurity are working by checking the ModSecurity logs:
+
+   ```sh
+   tail -f /var/log/httpd/modsec_audit.log
+   ```
+
+2. **Test Configuration**:
+   - You can test the configuration by accessing your web server and triggering some security rules.
+
+### Summary
+
+By following these steps, you should have successfully installed and configured Coraza to work with OWASP ModSecurity on your CentOS Stream 9 machine. This setup helps enhance your web application's security by leveraging the capabilities of both Coraza and ModSecurity.
