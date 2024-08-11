@@ -1,4 +1,5 @@
 #!/bin/bash
+#Functions to print in different colors
 function print_green(){
     GREEN="\033[0;32m"
     NC="\033[0m"
@@ -20,6 +21,15 @@ function print_red(){
     echo -e "${RED} $1 ${NC}"
 }
 
+#Function to check Exit code for the command
+check_exit_code() {
+    if [ $? -eq 0 ]; then
+        print_yellow "Last command executed successfully. Continuing..."
+    else
+        print_red "Last command failed. Exiting script."
+        exit 1
+    fi
+}
 
 
 
@@ -35,15 +45,13 @@ read -p "Enter the username for creating USER in Database : " DB_USER
 
 get_password() {
     while true; do
-        # Prompt the user to enter the password
-        read -sp "Enter your DB password: " DB_USER_PWD
-
         
-        # Prompt the user to confirm the password
+        read -sp "Enter your DB password: " DB_USER_PWD
+        
         read -sp "Confirm your DB password: " DB_USER_PWD_CONFIRM
 
+        # Checking to see if the passwords match
 
-        # Check if the passwords match
         if [ "$DB_USER_PWD" == "$DB_USER_PWD_CONFIRM" ]; then
             print_yellow "Passwords match."
             break
@@ -52,8 +60,7 @@ get_password() {
         fi
     done
 }
-
-# Call the function
+# Call The function to requier user password
 get_password
 
 
@@ -189,29 +196,45 @@ print_green "Creating Project"
 
 sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition ${DOMAIN_INITIALS}
 
+check_exit_code
+
 print_green "Setting Permissions for Project"
 
 chown -R apache:apache /var/www/html/${DOMAIN_INITIALS}/ && chmod -R 755 /var/www/html/${DOMAIN_INITIALS}/
+
+check_exit_code
 
 cd ${DOMAIN_INITIALS}/ && chmod u+x bin/
 
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 
+check_exit_code
+
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 
+check_exit_code
+
 chmod u+x bin/magento
+
+check_exit_code
 
 print_green "Installing PHP Dependencies"
 
 php bin/magento setup:install --base-url=http://${DOMAIN_INITIALS}.gunzdev.com --db-host=localhost --db-name=${DB_NAME} --db-user=${DB_USER} --db-password=${DB_USER_PWD} --admin-firstname=Admin --admin-lastname=Admin --admin-email=nsharif@morgangoodwin.com --admin-user=admin --admin-password=qhCDFFgn1QhE1Z58K9vDZCVnG --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
 
+check_exit_code
+
 cd magento
 
 sudo php bin/magento deploy:mode:set developer
 
+check_exit_code
+
 sudo php bin/magento cache:flush
 
 sudo chmod -R 777 var pub/static generated generated/ && sudo php bin/magento indexer:reindex
+
+check_exit_code
 
 sudo php bin/magento setup:static-content:deploy -f
 
@@ -230,6 +253,8 @@ php bin/magento setup:static-content:deploy -f
 php bin/magento indexer:reindex
 
 php bin/magento cache:flush
+
+check_exit_code
 
 print_blue "Script Completed!"
 
