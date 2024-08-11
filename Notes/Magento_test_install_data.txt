@@ -1,0 +1,42 @@
+Public key : 8f35fd5f6779c3a9e814aa6dbca28972
+
+Private key : 3d11ffc6c47a6ef8efcbf2f421d00c2e
+
+
+
+
+
+php bin/magento setup:install \
+--base-url=http://192.168.2.3/ \
+--db-host=% \
+--db-name=magento \
+--db-user=magento_user \
+--db-password=magento_password \
+--admin-firstname=admin \
+--admin-lastname=admin \
+--admin-email=admin@example.com \
+--admin-user=admin \
+--admin-password=admin123 \
+--language=en_US \
+--currency=USD \
+--timezone=America/Chicago \
+--use-rewrites=1
+
+
+
+
+php bin/magento setup:install \
+    --base-url=http://localhost/magento2 \
+    --db-host=localhost \
+    --db-name=magento \
+    --db-user=magento_user \
+    --db-password=magento_password \
+    --admin-firstname=Admin \
+    --admin-lastname=User \
+    --admin-email=admin@example.com \
+    --admin-user=admin \
+    --admin-password=admin123 \
+    --language=en_US \
+    --currency=USD \
+    --timezone=America/New_York \
+    --use-rewrites=1
