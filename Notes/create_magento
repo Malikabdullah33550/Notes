@@ -108,7 +108,7 @@ fi
 
 print_green "Creating Configuration file in /etc/httpd/conf.d/"
 
-cat <<EOL > /etc/httpd/conf.d/${DOMAIN_INITIALS}.conf
+cat <<EOL > /etc/httpd/conf.d/magento.conf
 <VirtualHost *:80>
     RewriteEngine On
     RewriteCond %{HTTPS} !=on
@@ -118,7 +118,7 @@ EOL
 
 print_green "Checking if file created"
 # File path
-FILE_PATH="/etc/httpd/conf.d/${DOMAIN_INITIALS}.conf"
+FILE_PATH="/etc/httpd/conf.d/magento.conf"
 
 # ------------------ Check if the file exists ------------------
 if [ -f "$FILE_PATH" ]; then

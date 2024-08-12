@@ -30,6 +30,7 @@ CURRENT_DATE_TIME=$(date +"%Y%m%d_%H%M%S")
 # source files
 SOURCE_SSL="/etc/httpd/conf.d/ssl.conf"
 SOURCE_MAGENTO="/etc/httpd/conf.d/magento.conf"
+SOURCE_MAGENTO_DIR="/var/www/html/magento"
 
 # destination directory
 DESTINATION_DIR="/etc/httpd/backup/"
@@ -45,11 +46,15 @@ fi
 # Backup Files
 DESTINATION_SSL="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_ssl.conf"
 DESTINATION_MAGENTO="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_magento.conf"
-
+DESTINATION_MAGENTO_DIR="${BACKUP_DIR}/backup_${CURRENT_DATE}_magento"
 
 # Copy the files with the new names
+
+print_green "Taking Backup of Config Files"
+
 cp -a "$SOURCE_SSL" "$DESTINATION_SSL"
 cp -a "$SOURCE_MAGENTO" "$DESTINATION_MAGENTO"
+
 
 if [ -f "$DESTINATION_SSL" ]; then
      print_yellow "Backup created as: $DESTINATION_SSL"
@@ -61,4 +66,16 @@ if [ -f "$DESTINATION_MAGENTO" ]; then
      print_yellow "Backup created as: $DESTINATION_MAGENTO"
 else
      print_red "Backup Failed for $DESTINATION_MAGENTO"
+fi
+
+#--------------- Copying Magento -----------------------
+
+print_green "Taking Backup of Magento"
+
+cp -ar "$SOURCE_MAGENTO_DIR" "$DESTINATION_MAGENTO_DIR"
+
+if [ -d "${BACKUP_DIR}/backup_${CURRENT_DATE}_magento" ]; then
+    print_yellow "Backup created as: $DESTINATION_MAGENTO_DIR"
+else
+    print_red "Backup Failed for $DESTINATION_MAGENTO_DIR"
 fi
