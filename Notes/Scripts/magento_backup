@@ -30,23 +30,23 @@ CURRENT_DATE_TIME=$(date +"%Y%m%d_%H%M%S")
 # source files
 SOURCE_SSL="/etc/httpd/conf.d/ssl.conf"
 SOURCE_MAGENTO="/etc/httpd/conf.d/magento.conf"
-SOURCE_MAGENTO_DIR="/var/www/html/magento"
+SOURCE_MAGENTO_DIR="/var/www/html"
 
-# destination directory
-DESTINATION_DIR="/etc/httpd/backup/"
 
-# Create the backup directory if it doesn't exist
-if [ ! -d "$DESTINATION_DIR" ]; then
-    print_blue "Backup directory does not exist. Creating $DESTINATION_DIR..."
-    mkdir -p "$DESTINATION_DIR"
-else
-    print_yellow "Backup directory exists: $DESTINATION_DIR . Taking Backup Now"
-fi
+# creating destination directory
+
+print_green "Creating Backup Directory"
+
+mkdir /magento-bkf/backup_${CURRENT_DATE_TIME}
+
+DESTINATION_DIR="/magento-bkf/backup_${CURRENT_DATE_TIME}/"
+
+
 
 # Backup Files
 DESTINATION_SSL="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_ssl.conf"
 DESTINATION_MAGENTO="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_magento.conf"
-DESTINATION_MAGENTO_DIR="${BACKUP_DIR}/backup_${CURRENT_DATE}_magento"
+DESTINATION_MAGENTO_DIR="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_html.tar"
 
 # Copy the files with the new names
 
@@ -68,14 +68,17 @@ else
      print_red "Backup Failed for $DESTINATION_MAGENTO"
 fi
 
-#--------------- Copying Magento -----------------------
+#--------------- Backup of Magento -----------------------
 
-print_green "Taking Backup of Magento"
+print_green "Taking Backup of /var/www/html"
 
-cp -ar "$SOURCE_MAGENTO_DIR" "$DESTINATION_MAGENTO_DIR"
+tar -cvf "$DESTINATION_MAGENTO_DIR" "$SOURCE_MAGENTO_DIR"
 
-if [ -d "${BACKUP_DIR}/backup_${CURRENT_DATE}_magento" ]; then
-    print_yellow "Backup created as: $DESTINATION_MAGENTO_DIR"
+if [ -f "$DESTINATION_MAGENTO_DIR" ]; then
+     print_yellow "Backup created at: $DESTINATION_MAGENTO_DIR"
 else
-    print_red "Backup Failed for $DESTINATION_MAGENTO_DIR"
+     print_red "Backup Failed for $DESTINATION_MAGENTO_DIR"
 fi
+
+print_green "Script Completed"
+

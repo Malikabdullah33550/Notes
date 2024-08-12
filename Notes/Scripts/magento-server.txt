@@ -38,6 +38,7 @@ drwxr-xr-x.  4 root   root    4.0K Aug  9 10:42 .
 drwxr-xr-x.  4 root   root    4.0K Jul 12 14:34 ..
 drwxr-xr-x  12 apache apache  4.0K Jul 15 06:54 magento
 -rw-r--r--   1 root   root   1006M Aug  9 10:48 magento_9Aug24.tar
+# cd /var/www/html
 # sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition magento-test
 # chown -R apache:apache /var/www/html/magento-test/ && chmod -R 755 /var/www/html/magento-test/
 # cd magento-test/ && chmod u+x bin/
