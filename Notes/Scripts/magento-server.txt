@@ -3,7 +3,7 @@ Password: 6iejcEQ3Ys5BVOaf1noE4fWAj
 
 database Name: magentotest
 
-# vim /etc/httpd/conf.d/magento-test.conf
+# vim /etc/httpd/conf.d/magento2.conf
 <VirtualHost *:80>
 RewriteEngine On
 RewriteCond %{HTTPS} !=on
@@ -11,25 +11,25 @@ RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
 </VirtualHost>
 :wq
 # vim ssl.conf
-<VirtualHost magento-test.gunzdev.com:443>
+<VirtualHost magento2.gunzdev.com:443>
      ServerAdmin nsharif@morgangoodiwn.com
-     DocumentRoot /var/www/html/magento-test/
-     ServerName magento-test.gunzdev.com
+     DocumentRoot /var/www/html/magento2/
+     ServerName magento2.gunzdev.com
 
      SSLCertificateFile /etc/httpd/conf.d/ssl/gunzdev.com.cert.pem
-     SSLCertificateKeyFile /etc/httpd/conf.d/ssl/gunzdev.com.key
+     SSLCertificateKeyFile /etc/httpd/conf.d/ssl/gunzdev.com.key.pem
      SSLCertificateChainFile /etc/httpd/conf.d/ssl/_.gunzdev.com.chained.crt
      SSLEngine on
 
-     <Directory /var/www/html/magento-test/>
+     <Directory /var/www/html/magento2/>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride All
         Order allow,deny
         allow from all
      </Directory>
 
-     ErrorLog /var/log/httpd/magento-test_error.log
-     CustomLog /var/log/httpd/magento-test_access.log combined
+     ErrorLog /var/log/httpd/magento2_error.log
+     CustomLog /var/log/httpd/magento2_access.log combined
 </VirtualHost>
 :wq
 # ls -lha    (no need to create project directory, its name will mention in the next command)
@@ -39,15 +39,15 @@ drwxr-xr-x.  4 root   root    4.0K Jul 12 14:34 ..
 drwxr-xr-x  12 apache apache  4.0K Jul 15 06:54 magento
 -rw-r--r--   1 root   root   1006M Aug  9 10:48 magento_9Aug24.tar
 # cd /var/www/html
-# sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition magento-test
-# chown -R apache:apache /var/www/html/magento-test/ && chmod -R 755 /var/www/html/magento-test/
-# cd magento-test/ && chmod u+x bin/
+# sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition magento2
+# chown -R apache:apache /var/www/html/magento2/ && chmod -R 755 /var/www/html/magento2/
+# cd magento2/ && chmod u+x bin/
 # find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 # find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 # chmod u+x bin/magento
-# php bin/magento setup:install --base-url=http://magento-test.gunzdev.com --db-host=localhost --db-name=magentotest --db-user=magento2 --db-password=magento2 --admin-firstname=Admin --admin-lastname=Admin --admin-email=nsharif@morgangoodwin.com --admin-user=admin --admin-password=qhCDFFgn1QhE1Z58K9vDZCVnG --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
+# php bin/magento setup:install --base-url=http://magento2.gunzdev.com --db-host=localhost --db-name=magento2 --db-user=magento2 --db-password=magento2 --admin-firstname=Admin --admin-lastname=Admin --admin-email=nsharif@morgangoodwin.com --admin-user=admin --admin-password=qhCDFFgn1QhE1Z58K9vDZCVnG --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
 ################################> For Enable Developer Mode
-# cd magento
+# cd magento 
 # sudo php bin/magento deploy:mode:set developer
 Enabled developer mode.
 # sudo php bin/magento cache:flush

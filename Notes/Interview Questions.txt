@@ -1,0 +1,44 @@
+Purpose of VPC
+Assets in private subnet access methods
+security groups
+Internet gateways
+transit gateway
+Public private subnets connectivity
+VPC peering
+Nat gateways
+Diff between public and private subnet
+s3 tiers and lifecycles
+Types of load balancers
+Path based routing
+Host leaders based routing
+Route53 hosted zones both public and private and record types
+s3 website hosting
+Cloudfront origins and related questions
+RDS parameter groups
+RDS ecryption
+Snapshots and volumes
+
+
+
+
+
+K8s 
+
+
+
+Docker file parameters
+volumes and networks
+docker compose
+stateful sets
+daemonsets
+pods
+service types
+ingress and igress controllers
+configmaps
+k8s worker nodes servoices and master nodes services
+pvc and storage class 
+cert manager
+nginx ingress class
+Helm
+secrets
+k8s operators

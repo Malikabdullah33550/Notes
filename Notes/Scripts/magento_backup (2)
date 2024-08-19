@@ -1,0 +1,109 @@
+#!/bin/bash
+
+
+function print_green(){
+    GREEN="\033[0;32m"
+    NC="\033[0m"
+    echo -e "${GREEN} $1 ${NC}"
+}
+function print_yellow(){
+    YELLOW="\033[0;33m"
+    NC="\033[0m"
+    echo -e "${YELLOW} $1 ${NC}"
+}
+function print_red(){
+    RED="\033[0;31m"
+    NC="\033[0m"
+    echo -e "${RED} $1 ${NC}"
+}
+function print_blue(){
+    BLUE="\033[0;34m"
+    NC="\033[0m"
+    echo -e "${BLUE} $1 ${NC}"
+}
+
+print_green "Backing up Crucial Files"
+
+# current date and time
+
+CURRENT_DATE_TIME=$(date +"%d%m%Y")
+
+
+# source files
+SOURCE_SSL="/etc/httpd/conf.d/ssl.conf"
+SOURCE_MAGENTO="/etc/httpd/conf.d/magento.conf"
+SOURCE_MAGENTO_DIR="/var/www/html"
+
+
+# creating destination directory
+print_green "Creating Backup Directory"
+DESTINATION_DIR="/magento-bkf/backup_${CURRENT_DATE_TIME}/"
+# Backup Files
+DESTINATION_SSL="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_ssl.conf"
+DESTINATION_MAGENTO="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_magento.conf"
+DESTINATION_MAGENTO_DIR="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_html.tar"
+
+
+if [ -d "$DESTINATION_DIR" ]; then
+     # Create a new directory with a number appended
+     COUNT=1
+     while [ -d "${DESTINATION_DIR}(${COUNT})" ]; do
+     COUNT=$((COUNT + 1))
+     done
+     DESTINATION_DIR="${DESTINATION_DIR}(${COUNT})"
+     print_blue "Creating new directory $DESTINATION_DIR."
+else
+    # If the directory does not exist, create it
+    print_blue "Directory $DESTINATION_DIR does not exist. Creating it."
+    mkdir -p "$DESTINATION_DIR"
+fi
+
+     # Create the directory for the backup with the current date and time
+     mkdir -p "/magento-bkf/backup_${CURRENT_DATE_TIME}"
+
+     #--------------- Backup of Magento -----------------------
+
+     print_green "Taking Backup of /var/www/html"
+
+     tar -cvpf "$DESTINATION_MAGENTO_DIR" "$SOURCE_MAGENTO_DIR"
+
+     if [ -f "$DESTINATION_MAGENTO_DIR" ]; then
+          print_yellow "Backup created at: $DESTINATION_MAGENTO_DIR"
+     else
+          print_red "Backup Failed for $DESTINATION_MAGENTO_DIR"
+     fi
+
+# Copy the files with the new names
+
+print_green "Taking Backup of Config Files"
+
+cp -a "$SOURCE_SSL" "$DESTINATION_SSL"
+cp -a "$SOURCE_MAGENTO" "$DESTINATION_MAGENTO"
+
+
+if [ -f "$DESTINATION_SSL" ]; then
+     print_yellow "Backup created as: $DESTINATION_SSL"
+else
+     print_red "Backup Failed for $DESTINATION_SSL"
+fi
+
+if [ -f "$DESTINATION_MAGENTO" ]; then
+     print_yellow "Backup created as: $DESTINATION_MAGENTO"
+else
+     print_red "Backup Failed for $DESTINATION_MAGENTO"
+fi
+
+#--------------- Backup of Magento -----------------------
+
+print_green "Taking Backup of /var/www/html"
+
+tar -cvpf "$DESTINATION_MAGENTO_DIR" "$SOURCE_MAGENTO_DIR"
+
+if [ -f "$DESTINATION_MAGENTO_DIR" ]; then
+     print_yellow "Backup created at: $DESTINATION_MAGENTO_DIR"
+else
+     print_red "Backup Failed for $DESTINATION_MAGENTO_DIR"
+fi
+
+print_green "Script Completed"
+

@@ -1,0 +1,264 @@
+#!/bin/bash
+#Functions to print in different colors
+function print_green(){
+    GREEN="\033[0;32m"
+    NC="\033[0m"
+    echo -e "${GREEN} $1 ${NC}"
+    }
+function print_blue(){
+    BLUE="\033[0;34m"
+    NC="\033[0m"
+    echo -e "${BLUE} $1 ${NC}"
+}
+function print_yellow(){
+    YELLOW="\033[0;33m"
+    NC="\033[0m"
+    echo -e "${YELLOW} $1 ${NC}"
+}
+function print_red(){
+    RED="\033[0;31m"
+    NC="\033[0m"
+    echo -e "${RED} $1 ${NC}"
+}
+
+#Function to check Exit code for the command
+check_exit_code() {
+    if [ $? -eq 0 ]; then
+        print_yellow "Last command executed successfully. Continuing..."
+    else
+        print_red "Last command failed. Exiting script."
+        exit 1
+    fi
+}
+
+
+
+
+# --------------- Getting Credentials -------------------------
+
+print_green "Enter Credentials"
+read -sp "Enter Password for the root user of the Database: " ROOT_DB_PWD
+read -p "Kindly enter the name for the domain before gunzdev.com:" DOMAIN_INITIALS
+read -p "Enter the database name: " DB_NAME
+read -p "Enter the username for creating USER in Database : " DB_USER
+
+
+get_password() {
+    while true; do
+        
+        read -sp "Enter your DB password: " DB_USER_PWD
+        
+        read -sp "Confirm your DB password: " DB_USER_PWD_CONFIRM
+
+        # Checking to see if the passwords match
+
+        if [ "$DB_USER_PWD" == "$DB_USER_PWD_CONFIRM" ]; then
+            print_yellow "Passwords match."
+            break
+        else
+            print_red "Passwords do not match. Please try again."
+        fi
+    done
+}
+# Call The function to requier user password
+get_password
+
+
+#-------------------- Saving Credentials ---------------------
+
+print_green "Saving Credentials For Later Use"
+cat <<EOL > /var/www/${DOMAIN_INITIALS}-details.txt
+Domain =${DOMAIN_INITIALS}.gunzdev.com
+Database name =${DB_NAME}
+Database user =${DB_USER}
+Database user Password =${DB_USER_PASSWD}
+EOL
+
+
+#1------------------- Creating Database -----------------------
+
+print_green "Creating Database with Given Credentials"
+
+mysql -u root -p${ROOT_DB_PWD} <<EOF
+CREATE DATABASE `${DB_NAME}`;
+CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_USER_PASSWD}';
+GRANT ALL PRIVILEGES ON `${DB_NAME}`.* TO '${DB_USER}'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+EOF
+
+print_green "Testing DB, DB User and Credentials"
+
+if mysql -u root -p"${ROOT_DB_PWD}" -e "USE ${DB_NAME};" 2>/dev/null; then
+    print_yellow "Database '${DB_NAME}' exists."
+else
+    print_red "Database '${DB_NAME}' does not exist."
+fi
+
+#--------- Check if the user exists and has privileges ----------
+if mysql -u root -p"${root_db_passwd}" -e "SELECT User FROM mysql.user WHERE User='${DB_USER}';" 2>/dev/null | grep -q "${DB_USER}"; then
+    print_yellow "User '${DB_USER}' exists."
+else
+    print_red "User '${DB_USER}' does not exist."
+fi
+
+
+
+#2----------- Creating Configuration file for Apache ----------
+
+print_green "Creating Configuration file in /etc/httpd/conf.d/"
+
+cat <<EOL > /etc/httpd/conf.d/magento.conf
+<VirtualHost *:80>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+EOL
+
+print_green "Checking if file created"
+# File path
+FILE_PATH="/etc/httpd/conf.d/magento.conf"
+
+# ------------------ Check if the file exists ------------------
+if [ -f "$FILE_PATH" ]; then
+    print_yellow "File '${FILE_PATH}' exists."
+else
+    print_red "File '${FILE_PATH}' does not exist."
+fi
+
+
+#3---------------------- SSL Configuration -------------------------
+
+print_green "Condfiguring SSL Certificates"
+
+cat <<EOL >> /etc/httpd/conf.d/ssl.conf
+<VirtualHost ${DOMAIN_INITIALS}.gunzdev.com:443>
+     ServerAdmin nsharif@morgangoodwin.com
+     DocumentRoot /var/www/html/${DOMAIN_INITIALS}/
+     ServerName ${DOMAIN_INITIALS}.gunzdev.com
+
+     SSLCertificateFile /etc/httpd/conf.d/ssl/gunzdev.com.cert.pem
+     SSLCertificateKeyFile /etc/httpd/conf.d/ssl/gunzdev.com.key
+     SSLCertificateChainFile /etc/httpd/conf.d/ssl/_.gunzdev.com.chained.crt
+     SSLEngine on
+
+     <Directory /var/www/html/${DOMAIN_INITIALS}/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+     ErrorLog /var/log/httpd/${DOMAIN_INITIALS}_error.log
+     CustomLog /var/log/httpd/${DOMAIN_INITIALS}_access.log combined
+</VirtualHost>
+EOL
+
+print_green "Testing SSl Configuration"
+
+# File path
+SS_FILE_PATH="/etc/httpd/conf.d/ssl.conf"
+
+# Content to search for
+
+SEARCH_PATTERN="<VirtualHost ${DOMAIN_INITIALS}.gunzdev.com:443>
+     ServerAdmin nsharif@morgangoodwin.com
+     DocumentRoot /var/www/html/${DOMAIN_INITIALS}/
+     ServerName ${DOMAIN_INITIALS}.gunzdev.com
+
+     SSLCertificateFile /etc/httpd/conf.d/ssl/gunzdev.com.cert.pem
+     SSLCertificateKeyFile /etc/httpd/conf.d/ssl/gunzdev.com.key
+     SSLCertificateChainFile /etc/httpd/conf.d/ssl/_.gunzdev.com.chained.crt
+     SSLEngine on
+
+     <Directory /var/www/html/${DOMAIN_INITIALS}/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+     ErrorLog /var/log/httpd/${DOMAIN_INITIALS}_error.log
+     CustomLog /var/log/httpd/${DOMAIN_INITIALS}_access.log combined
+</VirtualHost>"
+
+# Check if the file contains the specified data
+if grep -qF "$SEARCH_PATTERN" "$SS_FILE_PATH"; then
+    print_yellow "The file '${SS_FILE_PATH}' contains the specified data."
+else
+    print_red "The file '${SS_FILE_PATH}' does not contain the specified data."
+fi
+
+
+#4------------------- Creating Project -----------------------
+print_green "Creating Project"
+
+cd /var/www/html/
+
+sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition ${DOMAIN_INITIALS}
+
+check_exit_code
+
+print_green "Setting Permissions for Project"
+
+chown -R apache:apache /var/www/html/${DOMAIN_INITIALS}/ && chmod -R 755 /var/www/html/${DOMAIN_INITIALS}/
+
+check_exit_code
+
+cd ${DOMAIN_INITIALS}/ && chmod u+x bin/
+
+find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+
+check_exit_code
+
+find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+
+check_exit_code
+
+chmod u+x bin/magento
+
+check_exit_code
+
+systemctl restart elasticsearch
+
+print_green "Installing PHP Dependencies"
+
+php bin/magento setup:install --base-url=http://${DOMAIN_INITIALS}.gunzdev.com --db-host=localhost --db-name=${DB_NAME} --db-user=${DB_USER} --db-password=${DB_USER_PWD} --admin-firstname=Admin --admin-lastname=Admin --admin-email=nsharif@morgangoodwin.com --admin-user=admin --admin-password=qhCDFFgn1QhE1Z58K9vDZCVnG --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
+
+check_exit_code
+
+cd ${DOMAIN_INITIALS}
+
+sudo php bin/magento deploy:mode:set developer
+
+check_exit_code
+
+sudo php bin/magento cache:flush
+
+sudo chmod -R 777 var pub/static generated generated/ && sudo php bin/magento indexer:reindex
+
+check_exit_code
+
+sudo php bin/magento setup:static-content:deploy -f
+
+sudo php bin/magento cache:flush
+
+sudo bin/magento cron:install
+
+php bin/magento module:disable {Magento_AdminAdobeImsTwoFactorAuth,Magento_TwoFactorAuth}
+
+php bin/magento setup:upgrade
+
+php bin/magento setup:di:compile
+
+php bin/magento setup:static-content:deploy -f
+
+php bin/magento indexer:reindex
+
+php bin/magento cache:flush
+
+check_exit_code
+
+print_blue "Script Completed!"
+
