@@ -37,7 +37,7 @@ SOURCE_MAGENTO_DIR="/var/www/html"
 
 # creating destination directory
 print_green "Creating Backup Directory"
-DESTINATION_DIR="/magento-bkf/backup_${CURRENT_DATE_TIME}/"
+DESTINATION_DIR="/daily_backup/backup_${CURRENT_DATE_TIME}/"
 # Backup Files
 DESTINATION_SSL="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_ssl.conf"
 DESTINATION_MAGENTO="${DESTINATION_DIR}backup_${CURRENT_DATE_TIME}_magento.conf"
