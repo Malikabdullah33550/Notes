@@ -34,7 +34,7 @@ SOURCE_SSL="/etc/httpd/conf.d/ssl.conf"
 SOURCE_MAGENTO="/etc/httpd/conf.d/magento.conf"
 SOURCE_MAGENTO_DIR="/var/www/html"
 
-
+/magento-bkf/
 # creating destination directory
 print_green "Creating Backup Directory"
 DESTINATION_DIR="/daily_backup/backup_${CURRENT_DATE_TIME}/"

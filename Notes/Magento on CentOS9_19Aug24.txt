@@ -1,0 +1,838 @@
+# ssh root@65.21.249.184
+Password: 6iejcEQ3Ys5BVOaf1noE4fWAj
+mysql root Password: cbox9e2l9mXpVjFpvcFGO5Acq
+
+# yum install vim epel-release -y && yum update -y
+# yum install -y httpd mod_ssl && systemctl restart httpd && systemctl enable httpd
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
+Disabled selinux & restart the server
+# shutdown -h now
+
+# sudo vi /etc/yum.repos.d/mysql-community.repo
+[mysql57-community]
+name=MySQL 5.7 Community Server
+baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/
+enabled=1
+gpgcheck=0
+
+[mysql-connectors-community]
+name=MySQL Connectors Community
+baseurl=http://repo.mysql.com/yum/mysql-connectors-community/el/7/$basearch/
+enabled=1
+gpgcheck=0
+
+[mysql-tools-community]
+name=MySQL Tools Community
+baseurl=http://repo.mysql.com/yum/mysql-tools-community/el/7/$basearch/
+enabled=1
+gpgcheck=0
+# sudo dnf config-manager --enable mysql57-community && sudo dnf install mysql-server mysql -y
+Installed:
+  mariadb-connector-c-config-3.1.11-2.el8_3.noarch                            mecab-0.996-1.module_el8.4.0+589+11e12751.9.x86_64
+  mysql-8.0.26-1.module_el8.4.0+915+de215114.x86_64                           mysql-common-8.0.26-1.module_el8.4.0+915+de215114.x86_64
+  mysql-errmsg-8.0.26-1.module_el8.4.0+915+de215114.x86_64                    mysql-server-8.0.26-1.module_el8.4.0+915+de215114.x86_64
+  perl-Carp-1.42-396.el8.noarch                                               perl-Data-Dumper-2.167-399.el8.x86_64
+  perl-Digest-1.17-395.el8.noarch                                             perl-Digest-MD5-2.55-396.el8.x86_64
+  perl-Encode-4:2.97-3.el8.x86_64                                             perl-Errno-1.28-421.el8.x86_64
+  perl-Exporter-5.72-396.el8.noarch                                           perl-File-Path-2.15-2.el8.noarch
+  perl-File-Temp-0.230.600-1.el8.noarch                                       perl-Getopt-Long-1:2.50-4.el8.noarch
+  perl-HTTP-Tiny-0.074-1.el8.noarch                                           perl-IO-1.38-421.el8.x86_64
+  perl-IO-Socket-IP-0.39-5.el8.noarch                                         perl-IO-Socket-SSL-2.066-4.module_el8.4.0+517+be1595ff.noarch
+  perl-MIME-Base64-3.15-396.el8.x86_64                                        perl-Mozilla-CA-20160104-7.module_el8.3.0+416+dee7bcef.noarch
+  perl-Net-SSLeay-1.88-1.module_el8.4.0+517+be1595ff.x86_64                   perl-PathTools-3.74-1.el8.x86_64
+  perl-Pod-Escapes-1:1.07-395.el8.noarch                                      perl-Pod-Perldoc-3.28-396.el8.noarch
+  perl-Pod-Simple-1:3.35-395.el8.noarch                                       perl-Pod-Usage-4:1.69-395.el8.noarch
+  perl-Scalar-List-Utils-3:1.49-2.el8.x86_64                                  perl-Socket-4:2.027-3.el8.x86_64
+  perl-Storable-1:3.11-3.el8.x86_64                                           perl-Term-ANSIColor-4.06-396.el8.noarch
+  perl-Term-Cap-1.17-395.el8.noarch                                           perl-Text-ParseWords-3.30-395.el8.noarch
+  perl-Text-Tabs+Wrap-2013.0523-395.el8.noarch                                perl-Time-Local-1:1.280-1.el8.noarch
+  perl-URI-1.73-3.el8.noarch                                                  perl-Unicode-Normalize-1.25-396.el8.x86_64
+  perl-constant-1.33-396.el8.noarch                                           perl-interpreter-4:5.26.3-421.el8.x86_64
+  perl-libnet-3.11-3.el8.noarch                                               perl-libs-4:5.26.3-421.el8.x86_64
+  perl-macros-4:5.26.3-421.el8.x86_64                                         perl-parent-1:0.237-1.el8.noarch
+  perl-podlators-4.11-1.el8.noarch                                            perl-threads-1:2.21-2.el8.x86_64
+  perl-threads-shared-1.58-2.el8.x86_64                                       policycoreutils-python-utils-2.9-20.el8.noarch
+  protobuf-lite-3.5.0-15.el8.x86_64
+
+Complete!
+################################## ALTERNATE METHOD ##################################
+# wget https://repo.mysql.com//mysql80-community-release-el9-1.noarch.rpm 
+# yum install -y mysql80-community-release-el9-1.noarch.rpm
+# dnf install mysql mysql-server -y
+######################################################################################
+# sudo systemctl enable --now mysqld.service; sudo systemctl restart mysqld.service
+# mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Connecting to MySQL using a blank password.
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Please set the password for root here.
+
+New password: 
+
+Re-enter new password: 
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : Yes
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : Yes
+ - Dropping test database...
+Success.
+
+ - Removing privileges on test database...
+Success.
+
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Yes
+Success.
+
+All done! 
+
+# sudo yum install -y epel-release
+Installed:
+  epel-release-8-11.el8.noarch
+
+############################### CREATE NEW USER WITH ROOT PWRMISSIONS #############################
+If root user did not not connect from remote, create a new user
+CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON . TO 'username'@'host' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+##################################################################################################
+# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.36 Source distribution
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+mysql> CREATE USER 'magento'@'localhost' IDENTIFIED BY 'magento';
+mysql> ALTER USER 'magento'@'localhost' IDENTIFIED WITH mysql_native_password BY 'magento';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'magento'@'%' WITH GRANT OPTION;
+mysql> CREATE DATABASE magento;
+mysql> FLUSH PRIVILEGES;
+mysql> exit
+Bye
+
+############################# JAVA Installation #######################################################
+# sudo wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm 
+--2024-07-11 10:21:45--  https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
+Resolving download.oracle.com (download.oracle.com)... 23.32.100.101
+Connecting to download.oracle.com (download.oracle.com)|23.32.100.101|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 182486159 (174M) [application/x-redhat-package-manager]
+Saving to: ‘jdk-17_linux-x64_bin.rpm’
+
+jdk-17_linux-x64_bin.rpm                        100%[=====================================================================================================>] 174.03M   168MB/s    in 1.0s    
+
+2024-07-11 10:21:47 (168 MB/s) - ‘jdk-17_linux-x64_bin.rpm’ saved [182486159/182486159]
+
+# sudo rpm -Uvh jdk-17_linux-x64_bin.rpm
+warning: jdk-17_linux-x64_bin.rpm: Header V3 RSA/SHA256 Signature, key ID ad986da3: NOKEY
+Verifying...                          ################################# [100%]
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:jdk-17-2000:17.0.11-7            ################################# [100%]
+# java -version
+java version "17.0.11" 2024-04-16 LTS
+Java(TM) SE Runtime Environment (build 17.0.11+7-LTS-207)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.11+7-LTS-207, mixed mode, sharing)
+
+###################### Alternate method for JAVA Installation ########################################
+# wget https://download.java.net/java/17/latest/jdk-17_linux-aarch64_bin.rpm
+# sudo dnf localinstall jdk-17_linux-aarch64_bin.rpm
+# java --version
+######################################################################################################
+
+# cat <<EOF | sudo tee /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/oss-7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+EOF
+# sudo yum -y install elasticsearch-oss
+Installed:
+  elasticsearch-oss-7.10.2-1.x86_64                                                                                                                                                           
+
+Complete!
+
+# cd /etc/elasticsearch/
+# ls
+elasticsearch.keystore  elasticsearch.yml  elasticsearch.yml_orig  jvm.options  jvm.options.d  log4j2.properties
+# cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml_orig
+# vim /etc/elasticsearch/elasticsearch.yml              (uncomment & change below lines)
+network.host: 0.0.0.0
+http.port: 9200
+discovery.seed_hosts: ["127.0.0.1"]
+:wq
+# cp jvm.options jvm.options_orig       (if your system has enogh memory then no need to change default memory which is 1gb otherwise you can change it to 256)
+# vim jvm.options
+-Xms1g      (default value - i will remains the default)
+-Xms1g      (default value - i will remains the default)
+
+-Xms256m      (update value if you want to change it)
+-Xms256m      (update value if you want to change it)
+:wq
+# curl -X GET 'http://localhost:9200'
+curl: (7) Failed to connect to localhost port 9200: Connection refused
+# systemctl restart elasticsearch && systemctl enable elasticsearch
+Created symlink /etc/systemd/system/multi-user.target.wants/elasticsearch.service → /usr/lib/systemd/system/elasticsearch.service.
+# curl -X GET 'http://localhost:9200'
+{
+  "name" : "Magento-CentOS9",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "_na_",
+  "version" : {
+    "number" : "7.10.2",
+    "build_flavor" : "oss",
+    "build_type" : "rpm",
+    "build_hash" : "747e1cc71def077253878a59143c1f785afa92b9",
+    "build_date" : "2021-01-13T00:42:12.435326Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.7.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+# dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm -y
+Installed:
+  remi-release-9.4-2.el9.remi.noarch                                                                                                                                                          
+
+Complete!
+# sudo dnf module reset php -y
+Last metadata expiration check: 2:03:57 ago on Thu 11 Jul 2024 10:39:58 AM UTC.
+Dependencies resolved.
+==============================================================================================================================================================================================
+ Package                                       Architecture                                 Version                                       Repository                                     Size
+==============================================================================================================================================================================================
+Disabling module profiles:
+ php/common                                                                                                                                                                                  
+Resetting modules:
+ php                                                                                                                                                                                         
+
+Transaction Summary
+==============================================================================================================================================================================================
+
+Is this ok [y/N]: y
+Complete!
+# sudo dnf module install php:remi-8.1 -y
+Upgraded:
+  php-common-8.1.29-1.el9.remi.x86_64                                                        php-pecl-zip-1.22.3-1.el9.remi.8.1.x86_64                                                       
+Installed:
+  libxslt-1.1.34-9.el9.x86_64            nginx-filesystem-1:1.20.1-16.el9.noarch  oniguruma5php-6.9.9-1.el9.remi.x86_64  php-cli-8.1.29-1.el9.remi.x86_64  php-fpm-8.1.29-1.el9.remi.x86_64 
+  php-mbstring-8.1.29-1.el9.remi.x86_64  php-xml-8.1.29-1.el9.remi.x86_64        
+
+Complete!
+# sudo dnf install php -y
+Installed:
+  libsodium-1.0.18-8.el9.x86_64     php-8.1.29-1.el9.remi.x86_64     php-opcache-8.1.29-1.el9.remi.x86_64     php-pdo-8.1.29-1.el9.remi.x86_64     php-sodium-8.1.29-1.el9.remi.x86_64    
+
+Complete!
+
+# sudo dnf install php-cli php-soap php-pdo php-bcmath php-mysqlnd php-opcache php-xml php-gd php-intl php-mbstring php-json php-iconv php-zip php-unzip git php-sodium php-pecl-zip php-common php-fpm wget php-pdo-mysql vim unzip -y
+
+######################################################## ALternate Command for packages with correct names #########################################################################################################################
+
+#sudo dnf install php-cli php-soap php-pdo php-bcmath php-mysqlnd php-opcache php-xml php-gd php-intl php-mbstring php-json php-iconv php-zip php-unzip git php-sodium php-pecl-zip php-common php-fpm wget php-pdo_mysql vim unzip -y
+###########################>    COUTION    <###########################
+After run composing commnd, it will prompt some php package need to install, so install them first
+# yum install -y unzip && yum install -y php-bcmath && yum install -y php-intl && yum install -y php-gd && yum install -y php-pdo_mysql
+Last metadata expiration check: 0:18:03 ago on Fri 12 Jul 2024 02:43:33 PM UTC.
+No match for argument: php-pdo-mysql
+Error: Unable to find a match: php-pdo-mysql
+# yum install -y php-mysql && yum install -y php-zip && yum install -y php-soap
+###########################>               <###########################
+
+# yum update -y
+# vim /etc/php.ini          (modify below values)
+allow_url_fopen = On
+short_open_tag = On
+memory_limit = 512M
+upload_max_filesize = 128M
+max_execution_time = 3600
+date.timezone = UTC
+:wq
+
+# curl -sS https://getcomposer.org/installer -o composer-setup.php
+# sudo php composer-setup.php --install-dir=/usr/bin --filename=composer
+All settings correct for using Composer
+Downloading...
+
+Composer (version 2.7.7) successfully installed to: /usr/bin/composer
+Use it: php /usr/bin/composer
+
+# composer
+   ______
+  / ____/___  ____ ___  ____  ____  ________  _____
+ / /   / __ \/ __ `__ \/ __ \/ __ \/ ___/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ (__  )  __/ /
+\____/\____/_/ /_/ /_/ .___/\____/____/\___/_/
+                    /_/
+Composer version 2.7.7 2024-06-10 22:11:12
+
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+      --profile                  Display timing and memory usage information
+      --no-plugins               Whether to disable plugins.
+      --no-scripts               Skips the execution of all scripts defined in composer.json file.
+  -d, --working-dir=WORKING-DIR  If specified, use the given directory as working directory.
+      --no-cache                 Prevent use of the cache
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  about                Shows a short information about Composer
+  archive              Creates an archive of this composer package
+  audit                Checks for security vulnerability advisories for installed packages
+  browse               [home] Opens the package's repository URL or homepage in your browser
+  bump                 Increases the lower limit of your composer.json requirements to the currently installed versions
+  check-platform-reqs  Check that platform requirements are satisfied
+  clear-cache          [clearcache|cc] Clears composer's internal package cache
+  completion           Dump the shell completion script
+  config               Sets config options
+  create-project       Creates new project from a package into given directory
+  depends              [why] Shows which packages cause the given package to be installed
+  diagnose             Diagnoses the system to identify common errors
+  dump-autoload        [dumpautoload] Dumps the autoloader
+  exec                 Executes a vendored binary/script
+  fund                 Discover how to help fund the maintenance of your dependencies
+  global               Allows running commands in the global composer dir ($COMPOSER_HOME)
+  help                 Display help for a command
+  init                 Creates a basic composer.json file in current directory
+  install              [i] Installs the project dependencies from the composer.lock file if present, or falls back on the composer.json
+  licenses             Shows information about licenses of dependencies
+  list                 List commands
+  outdated             Shows a list of installed packages that have updates available, including their latest version
+  prohibits            [why-not] Shows which packages prevent the given package from being installed
+  reinstall            Uninstalls and reinstalls the given package names
+  remove               [rm|uninstall] Removes a package from the require or require-dev
+  require              [r] Adds required packages to your composer.json and installs them
+  run-script           [run] Runs the scripts defined in composer.json
+  search               Searches for packages
+  self-update          [selfupdate] Updates composer.phar to the latest version
+  show                 [info] Shows information about packages
+  status               Shows a list of locally modified packages
+  suggests             Shows package suggestions
+  update               [u|upgrade] Updates your dependencies to the latest version according to composer.json, and updates the composer.lock file
+  validate             Validates a composer.json and composer.lock
+
+
+#################> Below command need php8.1 Version #####################################
+# cd /var/www/html && sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition magento
+Creating a "magento/project-community-edition" project at "./magento"
+Warning from repo.magento.com: You haven't provided your Magento authentication keys. For instructions, visit https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html
+    Authentication required (repo.magento.com):
+      Username: dfd94096fba3db72cab9d9b4510bb071
+      Password: 25966996506ef5f2fa03739279a19497
+Do you want to store credentials for repo.magento.com in /root/.config/composer/auth.json ? [Yn] Y
+Installing magento/project-community-edition (2.4.7-p1)
+  - Downloading magento/project-community-edition (2.4.7-p1)
+  - Installing magento/project-community-edition (2.4.7-p1): Extracting archive
+Created project in /var/www/html/magento
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires magento/product-community-edition 2.4.7-p1 -> satisfiable by magento/product-community-edition[2.4.7-p1].
+    - magento/product-community-edition 2.4.7-p1 requires php ~8.1.0||~8.2.0||~8.3.0 -> your php version (7.4.33) does not satisfy that requirement.
+  Problem 2
+    - Root composer.json requires allure-framework/allure-phpunit ^2 -> satisfiable by allure-framework/allure-phpunit[v2.0.0, v2.1.0].
+    - allure-framework/allure-phpunit[v2.0.0, ..., v2.1.0] require php ^8 -> your php version (7.4.33) does not satisfy that requirement.
+  Problem 3
+    - Root composer.json requires symfony/finder ^6.4 -> satisfiable by symfony/finder[v6.4.0, v6.4.7, v6.4.8].
+    - symfony/finder[v6.4.0, ..., v6.4.8] require php >=8.1 -> your php version (7.4.33) does not satisfy that requirement.
+  Problem 4
+    - composer/composer[1.7.0, ..., 1.9.3] require symfony/finder ^2.7 || ^3.0 || ^4.0 -> found symfony/finder[v2.7.0, ..., v2.8.52, v3.0.0, ..., v3.4.47, v4.0.0, ..., v4.4.44] but it conflicts with your root composer.json require (^6.4).
+    - composer/composer[1.10.0, ..., 1.10.27] require symfony/finder ^2.7 || ^3.0 || ^4.0 || ^5.0 -> found symfony/finder[v2.7.0, ..., v2.8.52, v3.0.0, ..., v3.4.47, v4.0.0, ..., v4.4.44, v5.0.0, ..., v5.4.40] but it conflicts with your root composer.json require (^6.4).
+    - symfony/finder[v6.4.0, ..., v6.4.8] require php >=8.1 -> your php version (7.4.33) does not satisfy that requirement.
+    - composer/composer[2.0.0, ..., 2.0.13] require symfony/finder ^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 -> found symfony/finder[v2.8.52, v3.4.35, ..., v3.4.47, v4.4.0, ..., v4.4.44, v5.0.0, ..., v5.4.40] but it conflicts with your root composer.json require (^6.4).
+    - magento/composer-dependency-version-audit-plugin[0.1.1, ..., 0.1.5] require composer/composer ^1.9 || ^2.0 -> satisfiable by composer/composer[1.9.0, ..., 1.10.27, 2.0.0, ..., 2.7.7].
+    - composer/composer[2.6.0, ..., 2.7.7] require symfony/finder ^5.4 || ^6.0 || ^7 -> satisfiable by symfony/finder[v6.4.0, v6.4.7, v6.4.8].
+    - composer/composer[2.3.0, ..., 2.5.8] require symfony/finder ^5.4 || ^6.0 -> satisfiable by symfony/finder[v6.4.0, v6.4.7, v6.4.8].
+    - composer/composer[2.0.14, ..., 2.2.24] require symfony/finder ^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0 -> satisfiable by symfony/finder[v6.4.0, v6.4.7, v6.4.8].
+    - Root composer.json requires magento/composer-dependency-version-audit-plugin ~0.1 -> satisfiable by magento/composer-dependency-version-audit-plugin[0.1.1, 0.1.4, 0.1.5].
+
+# cd /var/www/html/ && sudo composer create-project --repository-url https://repo.magento.com/ magento/project-community-edition magento         #This will also create magento project directory
+###############> Credentials    <##############
+username: dfd94096fba3db72cab9d9b4510bb071
+password: 25966996506ef5f2fa03739279a19497
+###############>     <##############
+Creating a "magento/project-community-edition" project at "./magento"
+Installing magento/project-community-edition (2.4.7-p1)
+  - Installing magento/project-community-edition (2.4.7-p1): Extracting archive
+Created project in /var/www/html/magento
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 609 installs, 0 updates, 0 removals
+  - Locking 2tvenom/cborencode (1.0.2)
+  - Locking adobe-commerce/adobe-ims-metapackage (2.2.2)
+  - Locking adobe-commerce/os-extensions-metapackage (1.0.0)
+  - Locking weew/helpers-array (v1.3.1)
+  - Locking wikimedia/less.php (v3.2.1)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 609 installs, 0 updates, 0 removals
+  - Downloading wikimedia/less.php (v3.2.1)
+  - Downloading symfony/polyfill-mbstring (v1.30.0)
+  - Downloading pdepend/pdepend (2.16.2)
+  - Downloading phpmd/phpmd (2.15.0)
+  - Downloading sebastian/phpcpd (6.0.3)
+  - Installing wikimedia/less.php (v3.2.1): Extracting archive
+  - Installing symfony/polyfill-mbstring (v1.30.0): Extracting archive
+  - Installing sebastian/phpcpd (6.0.3): Extracting archive
+    ...Module Magento_InventoryApi recognized as part of Magento Multi Source Inventory implementation
+    ...No special rule applied for Magento_InventoryApi module
+    ...Module Magento_InventorySalesApi recognized as part of Magento Multi Source Inventory implementation
+    ...No special rule applied for Magento_InventorySalesApi module
+    ...Module Magento_InventoryCatalogApi recognized as part of Magento Multi Source Inventory implementation
+    ...No special rule applied for Magento_InventoryCatalogApi module
+    ...No special rule applied for Magento_InventoryVisualMerchandiser module
+    ...Module Magento_InventoryWishlist recognized as part of Magento Multi Source Inventory implementation
+    ...No special rule applied for Magento_InventoryWishlist module
+109 package suggestions were added by new dependencies, use `composer suggest` to see details.
+Package sebastian/phpcpd is abandoned, you should avoid using it. No replacement was suggested.
+Generating autoload files
+148 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+PHP CodeSniffer Config installed_paths set to ../../magento/magento-coding-standard,../../magento/php-compatibility-fork,../../phpcsstandards/phpcsutils
+No security vulnerability advisories found.
+
+# sudo systemctl restart httpd.service
+# chown -R apache:apache /var/www/html/magento
+# chmod -R 755 /var/www/html/magento
+# cd magento
+# find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+# find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+# chmod u+x bin/magento
+
+# php bin/magento setup:install --base-url=http://magento.gunzdev.com --db-host=localhost --db-name=magento --db-user=magento --db-password=magento --admin-firstname=Admin --admin-lastname=Admin --admin-email=nsharif@morgangoodwin.com --admin-user=admin --admin-password=qhCDFFgn1QhE1Z58K9vDZCVnG --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
+Starting Magento installation:
+File permissions check...
+[Progress: 1 / 1448]
+Required extensions check...
+[Progress: 2 / 1448]
+Enabling Maintenance Mode...
+[Progress: 3 / 1448]
+Installing deployment configuration...
+[Progress: 4 / 1448]
+Installing database schema:
+Schema creation/updates:
+Module 'Magento_Store':
+[Progress: 5 / 1448]
+Module 'Magento_Config':
+[Progress: 6 / 1448]
+Module 'Magento_AdminAnalytics':
+[Progress: 7 / 1448]
+Module 'Magento_Directory':
+[Progress: 8 / 1448]
+Module 'Magento_AdminNotification':
+[Progress: 9 / 1448]
+Module 'Magento_AdobeIms':
+[Progress: 10 / 1448]
+Module 'Magento_AdobeImsApi':
+[Progress: 11 / 1448]
+Module 'Magento_AdobeStockAdminUi':
+[Progress: 12 / 1448]
+Module 'Magento_MediaGallery':
+[Progress: 13 / 1448]
+Module 'Magento_AdobeStockAssetApi':
+[Progress: 14 / 1448]
+.
+.
+.
+.
+.
+.
+.
+[Progress: 1445 / 1448]
+Post installation file permissions check...
+For security, remove write permissions from these directories: '/var/www/html/magento/app/etc'
+[Progress: 1446 / 1448]
+Write installation date...
+[Progress: 1447 / 1448]
+Enabling Update by Schedule Indexer Mode...
+14 indexer(s) are in "Update by Schedule" mode.
+[Progress: 1448 / 1448]
+[SUCCESS]: Magento installation complete.
+[SUCCESS]: Magento Admin URI: /admin
+Nothing to import.
+# sudo vi /etc/httpd/conf.d/magento.conf    # it is good to intall magento without ssl, after installation then apply ssl because it needs some setting in magento portal
+<VirtualHost *:80>
+     ServerAdmin nsharif@morgangoodiwn.com
+     DocumentRoot /var/www/html/magento/
+     ServerName magento.gunzdev.com
+
+     <Directory /var/www/html/magento/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+     ErrorLog /var/log/httpd/magento_error.log
+     CustomLog /var/log/httpd/magento_access.log combined
+</VirtualHost>
+:wq
+#######################################################################################################################################################################
+################################> For Enable Production Mode (No need this in my configuration)########################################################################
+#######################################################################################################################################################################
+# sudo php bin/magento deploy:mode:set production
+Enabling maintenance mode
+Starting compilation
+Compilation was started.
+%message% 0/9 [>---------------------------]   0% < 1 sec 72.0 MiBProxies code generation... 0/9 [>---------------------------]   0% < 1 sec 72.0 MiB
+Proxies code generation... 1/9 [===>------------------------]  11% 1 sec 74.0 MiB
+Repositories code generation... 1/9 [===>------------------------]  11% 1 sec 74.0 MiB
+Repositories code generation... 2/9 [======>---------------------]  22% 23 secs 162.0 MiB
+Service data attributes generation... 2/9 [======>---------------------]  22% 23 secs 162.0 MiB
+Service data attributes generation... 3/9 [=========>------------------]  33% 23 secs 162.0 MiB
+Application code generator... 3/9 [=========>------------------]  33% 23 secs 162.0 MiB
+Application code generator... 4/9 [============>---------------]  44% 40 secs 188.0 MiB
+Interceptors generation... 4/9 [============>---------------]  44% 40 secs 188.0 MiB
+Interceptors generation... 5/9 [===============>------------]  55% 1 min, 15 secs 224.0 MiB
+Area configuration aggregation... 5/9 [===============>------------]  55% 1 min, 15 secs 224.0 MiB
+Area configuration aggregation... 6/9 [==================>---------]  66% 1 min, 23 secs 332.0 MiB
+Interception cache generation... 6/9 [==================>---------]  66% 1 min, 23 secs 332.0 MiB
+Interception cache generation... 7/9 [=====================>------]  77% 1 min, 32 secs 330.0 MiB
+App action list generation... 7/9 [=====================>------]  77% 1 min, 32 secs 330.0 MiB
+Plugin list generation... 8/9 [========================>---]  88% 1 min, 32 secs 330.0 MiB
+Plugin list generation... 9/9 [============================] 100% 1 min, 37 secs 330.0 MiB
+Generated code and dependency injection configuration successfully.
+Compilation complete
+Starting deployment of static content
+
+Deploy using quick strategy
+frontend/Magento/blank/en_US            2267/2267           ============================ 100%   13 secs
+adminhtml/Magento/backend/en_US         2921/2921           ============================ 100%   14 secs
+frontend/Magento/luma/en_US             2283/2283           ============================ 100%   11 secs
+
+Execution time: 47.914520025253
+Deployment of static content complete
+Disabling maintenance mode
+Enabled production mode.
+# sudo php bin/magento cache:flush
+Flushed cache types:
+config
+layout
+block_html
+collections
+reflection
+db_ddl
+compiled_config
+eav
+customer_notification
+config_integration
+config_integration_api
+graphql_query_resolver_result
+full_page
+config_webservice
+translate
+# sudo chmod -R 777 var pub/static generated generated/
+# sudo php bin/magento indexer:reindex
+Design Config Grid index has been rebuilt successfully in 00:00:00
+Customer Grid index has been rebuilt successfully in 00:00:00
+Category Products index has been rebuilt successfully in 00:00:00
+Product Categories index has been rebuilt successfully in 00:00:00
+Catalog Rule Product index has been rebuilt successfully in 00:00:00
+Product EAV index has been rebuilt successfully in 00:00:00
+Stock index has been rebuilt successfully in 00:00:00
+Inventory index has been rebuilt successfully in 00:00:00
+Catalog Product Rule index has been rebuilt successfully in 00:00:00
+Product Price index has been rebuilt successfully in 00:00:00
+Catalog Search index process error during indexation process:
+Unknown 503 error from Elasticsearch null
+Stores Feed index has been rebuilt successfully in 00:00:00
+Sales Order Feed index has been rebuilt successfully in 00:00:00
+Sales Order Statuses Feed index has been rebuilt successfully in 00:00:00
+# sudo php bin/magento setup:upgrade
+Cache types config flushed successfully
+Cache cleared successfully
+File system cleanup:
+/var/www/html/magento/generated/code/AdobeStock
+/var/www/html/magento/generated/code/Aws
+/var/www/html/magento/generated/code/Composer
+/var/www/html/magento/generated/code/DOMDocumentFactory.php
+/var/www/html/magento/generated/code/Magento
+/var/www/html/magento/generated/code/PayPal
+/var/www/html/magento/generated/code/Psr
+/var/www/html/magento/generated/code/Symfony
+/var/www/html/magento/generated/metadata/adminhtml.php
+/var/www/html/magento/generated/metadata/app_action_list.php
+/var/www/html/magento/generated/metadata/crontab.php
+/var/www/html/magento/generated/metadata/frontend.php
+/var/www/html/magento/generated/metadata/global.php
+/var/www/html/magento/generated/metadata/graphql.php
+/var/www/html/magento/generated/metadata/interception.php
+/var/www/html/magento/generated/metadata/primary|global|adminhtml|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|crontab|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|frontend|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|graphql|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|webapi_rest|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|webapi_soap|plugin-list.php
+/var/www/html/magento/generated/metadata/webapi_rest.php
+/var/www/html/magento/generated/metadata/webapi_soap.php
+/var/www/html/magento/pub/static/adminhtml
+/var/www/html/magento/pub/static/deployed_version.txt
+/var/www/html/magento/pub/static/frontend
+/var/www/html/magento/var/view_preprocessed/pub
+Updating modules:
+Schema creation/updates:
+Module 'Magento_Store':
+Module 'Magento_Config':
+Module 'Magento_AdminAnalytics':
+Module 'Magento_Directory':
+Module 'Magento_AdminNotification':
+Module 'Magento_AdobeIms':
+Module 'Magento_AdobeImsApi':
+Module 'Magento_AdobeStockAdminUi':
+Module 'Magento_MediaGallery':
+Module 'Magento_AdobeStockAssetApi':
+Module 'Magento_AdobeStockClient':
+Module 'Magento_AdobeStockClientApi':
+.
+.
+.
+.
+.
+.
+Module 'Magento_Weee':
+Module 'Magento_WeeeGraphQl':
+Module 'Magento_CurrencySymbol':
+Module 'Magento_Wishlist':
+Module 'Magento_WishlistAnalytics':
+Module 'Magento_WishlistGraphQl':
+Module 'PayPal_Braintree':
+Module 'PayPal_BraintreeCustomerBalance':
+Module 'PayPal_BraintreeGiftCardAccount':
+Module 'PayPal_BraintreeGiftWrapping':
+Module 'PayPal_BraintreeGraphQl':
+Nothing to import.
+Please re-run Magento compile command. Use the command "setup:di:compile"
+Media files stored outside of 'Media Gallery Allowed' folders will not be available to the media gallery.
+Please refer to Developer Guide for more details.
+# sudo php bin/magento setup:static-content:deploy -f
+
+Deploy using quick strategy
+frontend/Magento/blank/en_US            2267/2267           ============================ 100%   8 secs              
+adminhtml/Magento/backend/en_US         2921/2921           ============================ 100%   11 secs             
+frontend/Magento/luma/en_US             2283/2283           ============================ 100%   10 secs
+
+Execution time: 38.392688989639
+# sudo php bin/magento cache:flush
+Flushed cache types:
+config
+layout
+block_html
+collections
+reflection
+db_ddl
+compiled_config
+eav
+customer_notification
+config_integration
+config_integration_api
+graphql_query_resolver_result
+full_page
+config_webservice
+translate
+# sudo bin/magento cron:install
+Crontab has been generated and saved
+
+######################################################> For Enable Developer Mode ######################################################################
+# cd magento
+# sudo php bin/magento deploy:mode:set developer
+Enabled developer mode.
+# sudo php bin/magento cache:flush
+Flushed cache types:
+config
+layout
+block_html
+collections
+reflection
+db_ddl
+compiled_config
+eav
+customer_notification
+config_integration
+config_integration_api
+graphql_query_resolver_result
+full_page
+config_webservice
+translate
+# sudo chmod -R 777 var pub/static generated generated/ && sudo php bin/magento indexer:reindex
+Design Config Grid index has been rebuilt successfully in 00:00:00
+Customer Grid index has been rebuilt successfully in 00:00:01
+Category Products index has been rebuilt successfully in 00:00:00
+Product Categories index has been rebuilt successfully in 00:00:00
+Catalog Rule Product index has been rebuilt successfully in 00:00:00
+Product EAV index has been rebuilt successfully in 00:00:00
+Stock index has been rebuilt successfully in 00:00:00
+Inventory index has been rebuilt successfully in 00:00:00
+Catalog Product Rule index has been rebuilt successfully in 00:00:00
+Product Price index has been rebuilt successfully in 00:00:00
+Catalog Search index sudo php bin/magento setup:static-content:deploy -f
+process error during indexation process:
+Unknown 503 error from Elasticsearch null #######################################
+Stores Feed index has been rebuilt successfully in 00:00:00
+Sales Order Feed index has been rebuilt successfully in 00:00:00
+Sales Order Statuses Feed index has been rebuilt successfully in 00:00:00
+# sudo php bin/magento setup:static-content:deploy -f
+
+Deploy using quick strategy
+frontend/Magento/blank/en_US            2267/2267           ============================ 100%   13 secs             
+adminhtml/Magento/backend/en_US         2921/2921           ============================ 100%   13 secs             
+frontend/Magento/luma/en_US             2283/2283           ============================ 100%   12 secs
+
+Execution time: 48.912154912949
+# sudo php bin/magento cache:flush
+Flushed cache types:
+config
+layout
+block_html
+collections
+reflection
+db_ddl
+compiled_config
+eav
+customer_notification
+config_integration
+config_integration_api
+graphql_query_resolver_result
+full_page
+config_webservice
+translate
+# sudo bin/magento cron:install
+Crontab has been generated and saved
+################################>
+Disable 2-Way Authentication on Login of Magento    <##############################
+# php bin/magento module:disable {Magento_AdminAdobeImsTwoFactorAuth,Magento_TwoFactorAuth}
+# php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy -f && php bin/magento indexer:reindex && php bin/magento cache:flush
+
+Admin URL: http://magento.gunzdev.com/admin
+
+
+############################ ERRORS & SOLUTIONS ######################################
+# cd /var/www/html/magento
+# php bin/magento setup:upgrade
+Cache types config flushed successfully
+Cache cleared successfully
+File system cleanup:
+/var/www/html/magento/generated/code/AdobeStock
+/var/www/html/magento/generated/code/Aws
+/var/www/html/magento/generated/code/Composer
+/var/www/html/magento/generated/code/DOMDocumentFactory.php
+/var/www/html/magento/generated/code/Magento
+/var/www/html/magento/generated/code/PayPal
+/var/www/html/magento/generated/code/Psr
+/var/www/html/magento/generated/code/Symfony
+/var/www/html/magento/generated/metadata/adminhtml.php
+/var/www/html/magento/generated/metadata/app_action_list.php
+/var/www/html/magento/generated/metadata/crontab.php
+/var/www/html/magento/generated/metadata/frontend.php
+/var/www/html/magento/generated/metadata/global.php
+/var/www/html/magento/generated/metadata/graphql.php
+/var/www/html/magento/generated/metadata/interception.php
+/var/www/html/magento/generated/metadata/primary|global|adminhtml|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|crontab|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|frontend|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|graphql|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|webapi_rest|plugin-list.php
+/var/www/html/magento/generated/metadata/primary|global|webapi_soap|plugin-list.php
+/var/www/html/magento/generated/metadata/webapi_rest.php
+/var/www/html/magento/generated/metadata/webapi_soap.php
+/var/www/html/magento/pub/static/adminhtml
+/var/www/html/magento/pub/static/deployed_version.txt
+/var/www/html/magento/pub/static/frontend
+/var/www/html/magento/var/view_preprocessed/pub
+Updating modules:
+#Could not validate a connection to Elasticsearch. No alive nodes found in your cluster
+
+SOLUTION:
+# systemctl restart elasticsearch
+###########################################################
+####>> Applied SSL on Magento
+go to magento admin url
+Stores => Configuration => Web => Secure Base URL => https://magento.gunzdev.com
+
+
+# vim ssl.conf
+<VirtualHost *:443>
+     ServerAdmin nsharif@morgangoodiwn.com
+     DocumentRoot /var/www/html/magento/
+     ServerName magento.gunzdev.com
+
+     SSLCertificateFile /etc/httpd/conf.d/ssl/gunzdev.com.cert.pem
+     SSLCertificateKeyFile /etc/httpd/conf.d/ssl/gunzdev.com.key.pem
+     SSLCertificateChainFile /etc/httpd/conf.d/ssl/_.gunzdev.com.chained.crt
+     SSLEngine on
+
+     <Directory /var/www/html/magento/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+     ErrorLog /var/log/httpd/magento_error.log
+     CustomLog /var/log/httpd/magento_access.log combined
+     #Redirect permanent / https://magento.gunzdev.com/
+</VirtualHost>
+:wq
+
+# vim magento.conf
+<VirtualHost *:80>
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+:wq
+
+
+
