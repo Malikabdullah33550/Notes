@@ -1,0 +1,150 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-suricata-on-centos-8-stream
+
+
+###########################Step 1 — Installing Suricata   #####################################
+
+https://www.digitalocean.com/community/tutorials/how-to-install-suricata-on-centos-8-stream
+
+sudo dnf copr enable @oisf/suricata-6.0
+
+sudo dnf install epel-release
+
+sudo dnf install suricata
+
+sudo systemctl enable suricata.service
+
+sudo systemctl stop suricata.service
+
+###########################Step 2 — Configuring Suricata For The First Time#####################
+
+sudo vi /etc/suricata/suricata.yaml
+
+########
+Find line 120 which reads # Community Flow ID. If you are using vi type 120gg to go directly to the line. Below that line is the community-id key. Set it to true to enable the setting:
+
+      # Community Flow ID
+      # Adds a 'community_id' field to EVE records. These are meant to give
+      # records a predictable flow ID that can be used to match records to
+      # output of other tools such as Zeek (Bro).
+      #
+      # Takes a 'seed' that needs to be same across sensors and tools
+      # to make the id less predictable.
+
+      # enable/disable the community id feature.
+      community-id: true
+######### Determining Which Network Interface(s) To Use ##################################
+You may need to override the default network interface or interfaces that you would like Suricata to inspect traffic on. The configuration file that comes with the OISF Suricata package defaults to inspecting traffic on a device called eth0. If your system uses a different default network interface, or if you would like to inspect traffic on more than one interface, then you will need to change this value.
+
+To determine the device name of your default network interface, you can use the ip command as follows:
+
+ip -p -j route show default
+
+
+
+Output
+[ {
+        "dst": "default",
+        "gateway": "203.0.113.254",
+        "dev": "eth0",                          ##### THis is the interface to replace eth0 with
+        "protocol": "static",
+		"metric": 100,
+        "flags": [ ]
+    } ]
+
+#############################################################
+
+sudo vi /etc/suricata/suricata.yaml
+
+# Linux high speed capture support
+af-packet:
+  - interface: eth0
+    # Number of receive threads. "auto" uses the number of cores
+    #threads: auto
+    # Default clusterid. AF_PACKET will load balance packets based on flow.
+    cluster-id: 99
+
+#############################  Step 3 — Updating Suricata Rulesets #######################
+
+sudo suricata-update
+
+sudo suricata-update list-sources
+
+sudo suricata-update enable-source tgreen/hunting
+
+################## Step 4 — Validating Suricata’s Configuration ###########################
+
+sudo suricata -T -c /etc/suricata/suricata.yaml -v
+
+##################### Step 5 — Running Suricata ########################################
+
+
+sudo systemctl start suricata.service
+
+sudo systemctl status suricata.service
+
+sudo tail -f /var/log/suricata/suricata.log
+
+
+#########################Step 6 — Testing Suricata Rules ##################################
+
+curl http://testmynids.org/uid/index.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
