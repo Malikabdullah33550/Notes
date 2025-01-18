@@ -1,0 +1,16 @@
+Notes for MongoDB Associate DBA Certification
+
+
+MongoDB Databse is composed of Collections
+
+Document is the smallest unit in the DB
+
+Collections are composed of Documents
+
+2 Documents in a single collection can have different schemas
+
+Data is stored in the form of BSON
+
+BSON is an extension of JSON
+
+BSON provides extra support for Object_id, createdAt, dates and Binary Data
