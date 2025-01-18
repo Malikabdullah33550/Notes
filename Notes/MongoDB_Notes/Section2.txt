@@ -1,0 +1,18 @@
+
+
+
+Data Modeling is the process of defining how data is stored and defining relationships that exist among differnet entities in your data
+
+A proper data model has the following benefits:
+
+1. Easier to manage your data
+2. Makes queries more efficient
+3. Uses less memory and CPU
+4. Reduces Costs
+
+The Document models accepts schemas but does not enforce them
+
+Ways to model data:
+Embedding and referencing
+
+Data that is accessed together, shoudl be stored together

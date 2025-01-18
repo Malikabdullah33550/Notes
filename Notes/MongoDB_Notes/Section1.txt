@@ -14,3 +14,5 @@ Data is stored in the form of BSON
 BSON is an extension of JSON
 
 BSON provides extra support for Object_id, createdAt, dates and Binary Data
+
+MongoDB uses the Document Model 
