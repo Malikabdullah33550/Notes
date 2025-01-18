@@ -25,6 +25,31 @@ many to many - A relationship where any number of entities in one set are connec
 
 
 Embedding:
- We take related data and inset it into our Document
+ We take related data and inset it into our Document - Avoids application joins and provides better performance for read operations - Allows developers to update related data in a single write operation - can be slow since whole document is read in memory as a whole and continously adding data without limit created unbounded documents and may exceed the BSON document threshold of 16MB
+ Data that is accessed together should be stored together by using Document Embedding
 Referencing:
- We Refer to documents in another collection in our document
+ We Refer to documents in another collection in our document - to store related info in separated document or collections
+ just use the _id of a document in another document as a link between the two. Simple and efficient in most use cases
+ No duplication of data and smaller documents - Query needs to run on multiple documents and may use more resources
+
+
+Problems as the array grows larger:
+- It will take up more space in memory 
+- May impact write performance 
+- Difficult to perform pagination of comments 
+- Maximum document size of 16 MB will lead to storage problems
+
+
+
+
+
+
+
+--------------------Additional Info-----------------------
+Schema Anti-Patterns:
+means things you should not do in mongodb:
+ - Massive arrays
+ - large number of collections: max recommended is 10000
+ - unnecessary Indexes
+ - Bloated documents
+ - Case Insensitivity
