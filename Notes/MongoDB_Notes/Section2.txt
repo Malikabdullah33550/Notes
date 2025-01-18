@@ -16,3 +16,15 @@ Ways to model data:
 Embedding and referencing
 
 Data that is accessed together, shoudl be stored together
+
+Common Relationships:
+
+one to one - one entity in a dataset is connected to one other entity in a dataset 
+one to many - A relationship where a data entity in one set is connected to any number of data entities in another set
+many to many - A relationship where any number of entities in one set are connected to any number of data entities in another set
+
+
+Embedding:
+ We take related data and inset it into our Document
+Referencing:
+ We Refer to documents in another collection in our document
